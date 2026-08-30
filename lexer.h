@@ -5,6 +5,15 @@
 #include <string.h>
 #include "types.h"
 
-int scan(void);
+typedef struct {
+    int start;
+    int current;
+    int line; 
+    char *buffer
+} Lexer;
+
+char *read_entire_file(const char *filename, long *out_size);
+Token_Type scan_token(char buffer[]);
+int scan_source(void);
 
 #endif
