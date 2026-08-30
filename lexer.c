@@ -18,7 +18,7 @@ int scan_source(void) {
     int line = 1;       
     
     while (fgets(buffer, sizeof buffer, file) != NULL) {
-        //printf("%s", buffer);
+        printf("%s", buffer);
         scan_token(buffer);
     }  
 
