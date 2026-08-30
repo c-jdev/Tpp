@@ -1,4 +1,8 @@
+#include <stdlib.h>
+#include <stdio.h>
+
 #include "lexer.h"
+#include "token_list.h"
 
 char *read_entire_file(const char *filename, long *out_size) {
     FILE *file = fopen(filename, "rb");
@@ -44,20 +48,41 @@ char *read_entire_file(const char *filename, long *out_size) {
     return buffer;
 }
 
-Lexer *scan_source(void) {      
+Lexer *make_lexer(void) {      
     Lexer *lexer = (Lexer*) malloc(sizeof(Lexer));
     if (lexer == NULL) {
         perror("error allocating lexer");
         return NULL;
-    }     
+    }   
 
-    
+    long *file_size;
+    lexer->buffer = read_entire_file("test.ctl", file_size);
+    lexer->start = 0;
+    lexer->current = 0;
+    lexer->line = 1;
+    lexer->file_size = *file_size;
+
+    return lexer;
 }
 
-Token *scan_token(char buffer[]) {
+Token *scan_token(Lexer *lexer) {
+    char current_char = lexer->buffer[lexer->current];
+    lexer->current++;
     
+    switch(current_char) {
+        // Single
+        case()
+    }
 }
 
 Token_List *scan_tokens(void) {
+    Token_List *token_list = make_token_list(64);
+    Lexer *lexer = scan_source();
 
+    while (lexer->current != lexer->file_size) {
+        lexer->start = lexer->current;
+        scanToken();
+    }
+
+    return token_list;
 }

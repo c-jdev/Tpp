@@ -2,7 +2,7 @@
 #define TYPES_H
 
 typedef enum {
-    // Character Tokens
+    // Single-Character Tokens
     LEFT_PAREN, RIGHT_PAREN, LEFT_BRACE, RIGHT_BRACE,
     COMMA, DOT, PLUS, MINUS, SEMICOLON, SLASH, STAR,
     EQUAL, GREATER, LESS, 
@@ -11,14 +11,14 @@ typedef enum {
     GREATER_EQUAL, LESSER_EQUAL, NOT_EQUAL, EQUAL_EQUAL,
 
     // Literals
-    STRING, NUMBER,
+    L_STRING, L_NUMBER,
 
     // Keywords
     AND, OR, IF, ELSE, WHILE, FOR, CLASS, FUNC, NIL, RETURN,
     TRUE, FALSE, THIS, PRINT, 
 
     // Types
-    VAR, 
+    VAR, STRING, CHAR, INT, FLOAT,
 
     // Special Tokens
     _EOF = -1

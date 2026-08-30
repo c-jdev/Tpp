@@ -1,8 +1,6 @@
 #ifndef TOKEN_LIST_H
 #define TOKEN_LIST_H
 
-#include <stdlib.h>
-#include <stdio.h>
 #include "types.h"
 
 Token_List *make_token_list(int size);

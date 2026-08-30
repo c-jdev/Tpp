@@ -1,3 +1,5 @@
+#include <stdlib.h>
+
 #include "token_list.h"
 
 Token_List *make_token_list(int size) {
