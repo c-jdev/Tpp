@@ -13,7 +13,8 @@ typedef struct {
 } Lexer;
 
 char *read_entire_file(const char *filename, long *out_size);
-Token_Type scan_token(char buffer[]);
-int scan_source(void);
+Lexer *scan_source(void);
+Token *scan_token(char buffer[]);
+Token_List *scan_tokens(void);
 
 #endif

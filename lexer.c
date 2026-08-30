@@ -3,19 +3,19 @@
 char *read_entire_file(const char *filename, long *out_size) {
     FILE *file = fopen(filename, "rb");
     if (file == NULL) {
-        perror("Error opening source file");
+        perror("error opening source file");
         return NULL;
     }
 
     if (fseek(file, 0L, SEEK_END) != 0) {
-        perror("Error seeking source file");
+        perror("error seeking source file");
         fclose(file);
         return NULL;
     }
 
     long file_size = ftell(file);
     if (file_size < 0) {
-        perror("Error telling source file");
+        perror("error telling source file");
         fclose(file);
         return NULL;
     }
@@ -24,14 +24,14 @@ char *read_entire_file(const char *filename, long *out_size) {
 
     char *buffer = (char*) malloc(file_size + 1);
     if (buffer == NULL) {
-        perror("Memory allocation for source buffer failed");
+        perror("error allocating source buffer");
         fclose(file);
         return NULL;
     }
 
     size_t bytes_read = fread(buffer, 1, file_size, file);
     if (bytes_read < (size_t)file_size) {
-        perror("Error reading source file");
+        perror("error reading source file");
         fclose(file);
         free(buffer);
         return NULL;
@@ -44,10 +44,20 @@ char *read_entire_file(const char *filename, long *out_size) {
     return buffer;
 }
 
-Token_Type scan_token(char buffer[]) {
+Lexer *scan_source(void) {      
+    Lexer *lexer = (Lexer*) malloc(sizeof(Lexer));
+    if (lexer == NULL) {
+        perror("error allocating lexer");
+        return NULL;
+    }     
+
     
 }
 
-int scan_source(void) {      
+Token *scan_token(char buffer[]) {
     
+}
+
+Token_List *scan_tokens(void) {
+
 }

@@ -2,7 +2,16 @@
 
 Token_List *make_token_list(int size) {
     Token_List *token_list = (Token_List*) malloc(sizeof(Token_List));
+    if (token_list == NULL) {
+        perror("error allocating token list");
+        return NULL;
+    }
+
     token_list->tokens = calloc(size, sizeof(Token));
+    if (token_list->tokens == NULL) {
+        perror("error allocating token list buffer");
+        return NULL;
+    }
     token_list->capacity = size;
     token_list->count = 0; 
 
@@ -14,6 +23,11 @@ void insert_token(Token_List *token_list, Token token) {
             token.type, token.lexeme, token.line);
     if (token_list->count == token_list->capacity) {
         token_list->tokens = realloc(token_list->tokens, (sizeof(Token)) * (token_list->capacity*2));
+        if (token_list->tokens == NULL) {
+            perror("error rallocating token list buffer");
+            return NULL;
+        }
+
         token_list->capacity *= 2;
         token_list->tokens[token_list->count] = token;
         token_list->count++;
