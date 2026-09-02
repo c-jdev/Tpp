@@ -114,109 +114,49 @@ Token *scan_token(Lexer *lexer, Token_List *token_list) {
     switch(current_char) {
         // Single-character Tokens
         case('('):
-            insert_token(token_list, 
-                (Token){ 
-                    .type = LEFT_PAREN, 
-                    .lexeme = get_substring(lexer), 
-                    .line = lexer->line});
+            insert_token(token_list, (Token){ .type = LEFT_PAREN, .lexeme = get_substring(lexer), .line = lexer->line});
             break;
         case(')'):
-            insert_token(token_list, 
-                (Token){ 
-                    .type = RIGHT_PAREN, 
-                    .lexeme = get_substring(lexer), 
-                    .line = lexer->line});
+            insert_token(token_list, (Token){ .type = RIGHT_PAREN, .lexeme = get_substring(lexer), .line = lexer->line});
             break;
         case('{'):
-            insert_token(token_list, 
-                (Token){ 
-                    .type = LEFT_BRACE, 
-                    .lexeme = get_substring(lexer), 
-                    .line = lexer->line});
+            insert_token(token_list, (Token){ .type = LEFT_BRACE, .lexeme = get_substring(lexer), .line = lexer->line});
             break;
         case('}'):
-            insert_token(token_list, 
-                (Token){ 
-                    .type = RIGHT_BRACE, 
-                    .lexeme = get_substring(lexer), 
-                    .line = lexer->line});
+            insert_token(token_list, (Token){ .type = RIGHT_BRACE, .lexeme = get_substring(lexer), .line = lexer->line});
             break;
         case(','):
-            insert_token(token_list, 
-                (Token){ 
-                    .type = COMMA, 
-                    .lexeme = get_substring(lexer), 
-                    .line = lexer->line});
+            insert_token(token_list, (Token){ .type = COMMA, .lexeme = get_substring(lexer), .line = lexer->line});
             break;
         case('.'):
-            insert_token(token_list, 
-                (Token){ 
-                    .type = DOT, 
-                    .lexeme = get_substring(lexer), 
-                    .line = lexer->line});
+            insert_token(token_list, (Token){ .type = DOT, .lexeme = get_substring(lexer), .line = lexer->line});
             break;
         case('+'):
-            insert_token(token_list, 
-                (Token){ 
-                    .type = PLUS, 
-                    .lexeme = get_substring(lexer), 
-                    .line = lexer->line});
+            insert_token(token_list, (Token){ .type = PLUS, .lexeme = get_substring(lexer), .line = lexer->line});
             break;
         case('-'):
-            insert_token(token_list, 
-                (Token){ 
-                    .type = MINUS, 
-                    .lexeme = get_substring(lexer), 
-                    .line = lexer->line});
+            insert_token(token_list, (Token){ .type = MINUS, .lexeme = get_substring(lexer), .line = lexer->line});
             break;
         case(';'):
-            insert_token(token_list, 
-                (Token){ 
-                    .type = SEMICOLON, 
-                    .lexeme = get_substring(lexer), 
-                    .line = lexer->line});
+            insert_token(token_list, (Token){ .type = SEMICOLON, .lexeme = get_substring(lexer), .line = lexer->line});
             break;
         case('\\'):
-            insert_token(token_list, 
-                (Token){ 
-                    .type = BACKSLASH, 
-                    .lexeme = get_substring(lexer), 
-                    .line = lexer->line});
+            insert_token(token_list, (Token){ .type = BACKSLASH, .lexeme = get_substring(lexer), .line = lexer->line});
             break;
         case('*'):
-            insert_token(token_list, 
-                (Token){ 
-                    .type = STAR, 
-                    .lexeme = get_substring(lexer), 
-                    .line = lexer->line});
+            insert_token(token_list, (Token){ .type = STAR, .lexeme = get_substring(lexer), .line = lexer->line});
             break;
         case('='):
-            insert_token(token_list, 
-                (Token){ 
-                    .type = (match_next(lexer, '=') ? EQUAL_EQUAL : EQUAL), 
-                    .lexeme = get_substring(lexer), 
-                    .line = lexer->line});
+            insert_token(token_list, (Token){ .type = (match_next(lexer, '=') ? EQUAL_EQUAL : EQUAL), .lexeme = get_substring(lexer), .line = lexer->line});
             break;
         case('>'):
-            insert_token(token_list, 
-                (Token){ 
-                    .type = (match_next(lexer, '=') ? GREATER_EQUAL : GREATER), 
-                    .lexeme = get_substring(lexer), 
-                    .line = lexer->line});
+            insert_token(token_list, (Token){ .type = (match_next(lexer, '=') ? GREATER_EQUAL : GREATER), .lexeme = get_substring(lexer), .line = lexer->line});
             break;
         case('<'):
-            insert_token(token_list, 
-                (Token){ 
-                    .type = (match_next(lexer, '=') ? LESSER_EQUAL : LESSER), 
-                    .lexeme = get_substring(lexer), 
-                    .line = lexer->line});
+            insert_token(token_list, (Token){ .type = (match_next(lexer, '=') ? LESSER_EQUAL : LESSER), .lexeme = get_substring(lexer), .line = lexer->line});
             break;
         case('!'):
-            insert_token(token_list, 
-                (Token){ 
-                    .type = (match_next(lexer, '=') ? NOT_EQUAL : NOT), 
-                    .lexeme = get_substring(lexer), 
-                    .line = lexer->line});
+            insert_token(token_list, (Token){ .type = (match_next(lexer, '=') ? NOT_EQUAL : NOT), .lexeme = get_substring(lexer), .line = lexer->line});
             break;
         case('/'):
             if (match_next(lexer, '/')) {
@@ -224,11 +164,7 @@ Token *scan_token(Lexer *lexer, Token_List *token_list) {
                     
                 }
             }
-            insert_token(token_list, 
-                (Token){ 
-                    .type = '/', 
-                    .lexeme = get_substring(lexer), 
-                    .line = lexer->line});
+            insert_token(token_list, (Token){ .type = '/',  .lexeme = get_substring(lexer), .line = lexer->line});
             break;
         default: 
             perror("error reading tokens");
