@@ -1,4 +1,5 @@
 #include <stdlib.h>
+#include <stdio.h>
 
 #include "token_list.h"
 
@@ -21,13 +22,11 @@ Token_List *make_token_list(int size) {
 }
 
 void insert_token(Token_List *token_list, Token token) {
-    printf("Inserting -> Token Type: %d, Lexeme: %s, Line Number: %d\n", 
-            token.type, token.lexeme, token.line);
     if (token_list->count == token_list->capacity) {
         token_list->tokens = realloc(token_list->tokens, (sizeof(Token)) * (token_list->capacity*2));
         if (token_list->tokens == NULL) {
             perror("error rallocating token list buffer");
-            return NULL;
+            return;
         }
 
         token_list->capacity *= 2;
