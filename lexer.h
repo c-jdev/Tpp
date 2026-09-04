@@ -5,7 +5,7 @@
 #include <string.h>
 #include <stdbool.h>
 
-#include "types.h"
+#include "token.h"
 
 typedef struct {
     int start;

@@ -1,7 +1,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-#include "token_list.h"
+#include "token.h"
 
 Token_List *make_token_list(int size) {
     Token_List *token_list = (Token_List*) malloc(sizeof(Token_List));
