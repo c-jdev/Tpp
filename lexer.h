@@ -16,14 +16,13 @@ typedef struct {
     bool hadError;
 } Lexer;
 
-char *read_entire_file(const char *filename, long *out_size);
-char get_substring(Lexer *lexer); 
+char *read_entire_file(const char *filename, long *out_size); 
 char peek_next(Lexer *lexer);
 char advance(Lexer *lexer);
 bool at_end(Lexer *lexer);
 bool match_next(Lexer *lexer, char expected);
 Lexer *make_lexer(void);
-Token *scan_token(Lexer *lexer, Token_List *token_list);
+void *scan_token(Lexer *lexer, Token_List *token_list);
 Token_List *scan_tokens(void);
 
 #endif

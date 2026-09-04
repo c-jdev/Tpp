@@ -5,7 +5,9 @@
 #include "types.h"
 
 int main() {
-    Lexer *lexer = make_lexer();
+    Token_List *list = scan_tokens();
+
+    print_token_list(list);
 
     return 0;
 }

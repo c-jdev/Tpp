@@ -48,15 +48,6 @@ char *read_entire_file(const char *filename, long *out_size) {
     return buffer;
 }
 
-char *get_substring(Lexer *lexer) {
-    char substring[64];
-    for (int i = 0; i < (lexer->current - lexer->start); i++) {
-        substring[i] = lexer->buffer[lexer->start + i];
-    }
-
-    return substring;
-}
-
 char peek_next(Lexer *lexer) {
     if (at_end(lexer)) {
         return '\0';
@@ -97,7 +88,7 @@ Lexer *make_lexer(void) {
         return NULL;
     }   
 
-    long *file_size;
+    long *file_size = (long*) malloc(sizeof(long));
     lexer->buffer = read_entire_file("test.ctl", file_size);
     lexer->start = 0;
     lexer->current = 0;
@@ -108,7 +99,7 @@ Lexer *make_lexer(void) {
     return lexer;
 }
 
-Token *scan_token(Lexer *lexer, Token_List *token_list) {
+void *scan_token(Lexer *lexer, Token_List *token_list) {
     char current_char = advance(lexer);
     
     switch(current_char) {
@@ -166,7 +157,6 @@ Token *scan_token(Lexer *lexer, Token_List *token_list) {
             } else {
                 insert_token(token_list, (Token){ .type = SLASH, .lexeme = &lexer->buffer[lexer->start], .length = (lexer->current - lexer->start), .line = lexer->line});    
             }
-            insert_token(token_list, (Token){ .type = '/',  .lexeme = &lexer->buffer[lexer->start], .length = (lexer->current - lexer->start), .line = lexer->line});
             break;
         // Special Characters
         case('\n'): 
