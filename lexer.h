@@ -22,7 +22,7 @@ char advance(Lexer *lexer);
 bool at_end(Lexer *lexer);
 bool match_next(Lexer *lexer, char expected);
 Lexer *make_lexer(void);
-void *scan_token(Lexer *lexer, Token_List *token_list);
-Token_List *scan_tokens(void);
+void scan_token(Lexer *lexer, Token_List *token_list);
+void scan_tokens(Lexer *lexer, Token_List *token_list);
 
 #endif

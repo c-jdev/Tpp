@@ -4,7 +4,10 @@
 #include "token.h"
 
 int main() {
-    Token_List *list = scan_tokens();
+    Lexer *lexer = make_lexer();
+    Token_List *list = make_token_list(32);
+
+    scan_tokens(lexer, list);
 
     print_token_list(list);
 

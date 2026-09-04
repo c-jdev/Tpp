@@ -2,7 +2,6 @@
 #include <stdio.h>
 
 #include "lexer.h"
-#include "token_list.h"
 
 char *read_entire_file(const char *filename, long *out_size) {
     FILE *file = fopen(filename, "rb");
@@ -99,55 +98,55 @@ Lexer *make_lexer(void) {
     return lexer;
 }
 
-void *scan_token(Lexer *lexer, Token_List *token_list) {
+void scan_token(Lexer *lexer, Token_List *list) {
     char current_char = advance(lexer);
     
     switch(current_char) {
         // Single-character Tokens
         case('('):
-            insert_token(token_list, (Token){ .type = LEFT_PAREN, .lexeme = &lexer->buffer[lexer->start], .length = (lexer->current - lexer->start), .line = lexer->line});
+            insert_token(list, (Token){ .type = LEFT_PAREN, .lexeme = &lexer->buffer[lexer->start], .length = (lexer->current - lexer->start), .line = lexer->line});
             break;
         case(')'):
-            insert_token(token_list, (Token){ .type = RIGHT_PAREN, .lexeme = &lexer->buffer[lexer->start], .length = (lexer->current - lexer->start), .line = lexer->line});
+            insert_token(list, (Token){ .type = RIGHT_PAREN, .lexeme = &lexer->buffer[lexer->start], .length = (lexer->current - lexer->start), .line = lexer->line});
             break;
         case('{'):
-            insert_token(token_list, (Token){ .type = LEFT_BRACE, .lexeme = &lexer->buffer[lexer->start], .length = (lexer->current - lexer->start), .line = lexer->line});
+            insert_token(list, (Token){ .type = LEFT_BRACE, .lexeme = &lexer->buffer[lexer->start], .length = (lexer->current - lexer->start), .line = lexer->line});
             break;
         case('}'):
-            insert_token(token_list, (Token){ .type = RIGHT_BRACE, .lexeme = &lexer->buffer[lexer->start], .length = (lexer->current - lexer->start), .line = lexer->line});
+            insert_token(list, (Token){ .type = RIGHT_BRACE, .lexeme = &lexer->buffer[lexer->start], .length = (lexer->current - lexer->start), .line = lexer->line});
             break;
         case(','):
-            insert_token(token_list, (Token){ .type = COMMA, .lexeme = &lexer->buffer[lexer->start], .length = (lexer->current - lexer->start), .line = lexer->line});
+            insert_token(list, (Token){ .type = COMMA, .lexeme = &lexer->buffer[lexer->start], .length = (lexer->current - lexer->start), .line = lexer->line});
             break;
         case('.'):
-            insert_token(token_list, (Token){ .type = DOT, .lexeme = &lexer->buffer[lexer->start], .length = (lexer->current - lexer->start), .line = lexer->line});
+            insert_token(list, (Token){ .type = DOT, .lexeme = &lexer->buffer[lexer->start], .length = (lexer->current - lexer->start), .line = lexer->line});
             break;
         case('+'):
-            insert_token(token_list, (Token){ .type = PLUS, .lexeme = &lexer->buffer[lexer->start], .length = (lexer->current - lexer->start), .line = lexer->line});
+            insert_token(list, (Token){ .type = PLUS, .lexeme = &lexer->buffer[lexer->start], .length = (lexer->current - lexer->start), .line = lexer->line});
             break;
         case('-'):
-            insert_token(token_list, (Token){ .type = MINUS, .lexeme = &lexer->buffer[lexer->start], .length = (lexer->current - lexer->start), .line = lexer->line});
+            insert_token(list, (Token){ .type = MINUS, .lexeme = &lexer->buffer[lexer->start], .length = (lexer->current - lexer->start), .line = lexer->line});
             break;
         case(';'):
-            insert_token(token_list, (Token){ .type = SEMICOLON, .lexeme = &lexer->buffer[lexer->start], .length = (lexer->current - lexer->start), .line = lexer->line});
+            insert_token(list, (Token){ .type = SEMICOLON, .lexeme = &lexer->buffer[lexer->start], .length = (lexer->current - lexer->start), .line = lexer->line});
             break;
         case('\\'):
-            insert_token(token_list, (Token){ .type = BACKSLASH, .lexeme = &lexer->buffer[lexer->start], .length = (lexer->current - lexer->start), .line = lexer->line});
+            insert_token(list, (Token){ .type = BACKSLASH, .lexeme = &lexer->buffer[lexer->start], .length = (lexer->current - lexer->start), .line = lexer->line});
             break;
         case('*'):
-            insert_token(token_list, (Token){ .type = STAR, .lexeme = &lexer->buffer[lexer->start], .length = (lexer->current - lexer->start), .line = lexer->line});
+            insert_token(list, (Token){ .type = STAR, .lexeme = &lexer->buffer[lexer->start], .length = (lexer->current - lexer->start), .line = lexer->line});
             break;
         case('='):
-            insert_token(token_list, (Token){ .type = (match_next(lexer, '=') ? EQUAL_EQUAL : EQUAL), .lexeme = &lexer->buffer[lexer->start], .length = (lexer->current - lexer->start), .line = lexer->line});
+            insert_token(list, (Token){ .type = (match_next(lexer, '=') ? EQUAL_EQUAL : EQUAL), .lexeme = &lexer->buffer[lexer->start], .length = (lexer->current - lexer->start), .line = lexer->line});
             break;
         case('>'):
-            insert_token(token_list, (Token){ .type = (match_next(lexer, '=') ? GREATER_EQUAL : GREATER), .lexeme = &lexer->buffer[lexer->start], .length = (lexer->current - lexer->start), .line = lexer->line});
+            insert_token(list, (Token){ .type = (match_next(lexer, '=') ? GREATER_EQUAL : GREATER), .lexeme = &lexer->buffer[lexer->start], .length = (lexer->current - lexer->start), .line = lexer->line});
             break;
         case('<'):
-            insert_token(token_list, (Token){ .type = (match_next(lexer, '=') ? LESSER_EQUAL : LESSER), .lexeme = &lexer->buffer[lexer->start], .length = (lexer->current - lexer->start), .line = lexer->line});
+            insert_token(list, (Token){ .type = (match_next(lexer, '=') ? LESSER_EQUAL : LESSER), .lexeme = &lexer->buffer[lexer->start], .length = (lexer->current - lexer->start), .line = lexer->line});
             break;
         case('!'):
-            insert_token(token_list, (Token){ .type = (match_next(lexer, '=') ? NOT_EQUAL : NOT), .lexeme = &lexer->buffer[lexer->start], .length = (lexer->current - lexer->start), .line = lexer->line});
+            insert_token(list, (Token){ .type = (match_next(lexer, '=') ? NOT_EQUAL : NOT), .lexeme = &lexer->buffer[lexer->start], .length = (lexer->current - lexer->start), .line = lexer->line});
             break;
         case('/'):
             if (match_next(lexer, '/')) {
@@ -155,9 +154,10 @@ void *scan_token(Lexer *lexer, Token_List *token_list) {
                     advance(lexer);
                 }
             } else {
-                insert_token(token_list, (Token){ .type = SLASH, .lexeme = &lexer->buffer[lexer->start], .length = (lexer->current - lexer->start), .line = lexer->line});    
+                insert_token(list, (Token){ .type = SLASH, .lexeme = &lexer->buffer[lexer->start], .length = (lexer->current - lexer->start), .line = lexer->line});    
             }
             break;
+
         // Special Characters
         case('\n'): 
             lexer->line++;
@@ -175,14 +175,9 @@ void *scan_token(Lexer *lexer, Token_List *token_list) {
     }
 }
 
-Token_List *scan_tokens(void) {
-    Token_List *token_list = make_token_list(64);
-    Lexer *lexer = make_lexer();
-
+void scan_tokens(Lexer *lexer, Token_List *list) {
     while (lexer->current != lexer->file_size) {
         lexer->start = lexer->current;
-        scan_token(lexer, token_list);
+        scan_token(lexer, list);
     }
-
-    return token_list;
 }

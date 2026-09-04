@@ -4,50 +4,50 @@
 #include "token.h"
 
 Token_List *make_token_list(int size) {
-    Token_List *token_list = (Token_List*) malloc(sizeof(Token_List));
-    if (token_list == NULL) {
+    Token_List *list = (Token_List*) malloc(sizeof(Token_List));
+    if (list == NULL) {
         perror("error allocating token list");
         return NULL;
     }
 
-    token_list->tokens = calloc(size, sizeof(Token));
-    if (token_list->tokens == NULL) {
+    list->tokens = calloc(size, sizeof(Token));
+    if (list->tokens == NULL) {
         perror("error allocating token list buffer");
         return NULL;
     }
-    token_list->capacity = size;
-    token_list->count = 0; 
+    list->capacity = size;
+    list->count = 0; 
 
-    return token_list;
+    return list;
 }
 
-void insert_token(Token_List *token_list, Token token) {
-    if (token_list->count == token_list->capacity) {
-        token_list->tokens = realloc(token_list->tokens, (sizeof(Token)) * (token_list->capacity*2));
-        if (token_list->tokens == NULL) {
+void insert_token(Token_List *list, Token token) {
+    if (list->count == list->capacity) {
+        list->tokens = realloc(list->tokens, (sizeof(Token)) * (list->capacity*2));
+        if (list->tokens == NULL) {
             perror("error rallocating token list buffer");
             return;
         }
 
-        token_list->capacity *= 2;
-        token_list->tokens[token_list->count] = token;
-        token_list->count++;
+        list->capacity *= 2;
+        list->tokens[list->count] = token;
+        list->count++;
         return;
     } 
-    token_list->tokens[token_list->count] = token;
-    token_list->count++;
+    list->tokens[list->count] = token;
+    list->count++;
 }
 
-void print_token_list(Token_List *token_list) {
-    printf("Token Capacity: %d, Token Count: %d\n", token_list->capacity, token_list->count);
+void print_token_list(Token_List *list) {
+    printf("Token Capacity: %d, Token Count: %d\n", list->capacity, list->count);
 
-    if (token_list->count == 0) { 
+    if (list->count == 0) { 
         printf("Token list is empty\n");
         return;
     }
     
-    for (int i = 0; i < token_list->count; i++) {
-        Token token = token_list->tokens[i];
+    for (int i = 0; i < list->count; i++) {
+        Token token = list->tokens[i];
         printf("Token Type: %s, Lexeme: %.*s, Line Number: %d\n", 
             get_token_type_string(token), token.length, token.lexeme, token.line);
     }
