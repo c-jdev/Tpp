@@ -61,6 +61,10 @@ char advance(Lexer *lexer) {
     return current_char;
 }
 
+int get_length(Lexer *lexer) {
+    return (lexer->current - lexer->start);
+}
+
 bool at_end(Lexer *lexer) {
     if (lexer->current == lexer->file_size) {
         return true;
@@ -78,6 +82,10 @@ bool match_next(Lexer *lexer, char expected) {
 
     lexer->current++;
     return true;
+}
+
+bool is_digit(char c) {
+    return (c >= '0' && c <= '9');
 }
 
 Lexer *make_lexer(void) {      
@@ -98,79 +106,118 @@ Lexer *make_lexer(void) {
     return lexer;
 }
 
+void string_literal(Lexer *lexer) {
+    while (peek_next(lexer) != '"' && !at_end(lexer)) {
+        if (peek_next(lexer) == '\n') {
+            lexer->line++;
+        }
+        advance(lexer);
+    }
+
+    if (at_end(lexer)) {
+        perror("Unterminated string");
+        return;
+    }
+
+    advance(lexer);
+}
+
+void number_literal(Lexer *lexer) {
+
+}
+
 void scan_token(Lexer *lexer, Token_List *list) {
     char current_char = advance(lexer);
     
     switch(current_char) {
-        // Single-character Tokens
-        case('('):
+        #pragma region Finished Cases
+        // Operators
+        case '(':
             insert_token(list, (Token){ .type = LEFT_PAREN, .lexeme = &lexer->buffer[lexer->start], .length = (lexer->current - lexer->start), .line = lexer->line});
             break;
-        case(')'):
+        case ')':
             insert_token(list, (Token){ .type = RIGHT_PAREN, .lexeme = &lexer->buffer[lexer->start], .length = (lexer->current - lexer->start), .line = lexer->line});
             break;
-        case('{'):
+        case '{':
             insert_token(list, (Token){ .type = LEFT_BRACE, .lexeme = &lexer->buffer[lexer->start], .length = (lexer->current - lexer->start), .line = lexer->line});
             break;
-        case('}'):
+        case '}':
             insert_token(list, (Token){ .type = RIGHT_BRACE, .lexeme = &lexer->buffer[lexer->start], .length = (lexer->current - lexer->start), .line = lexer->line});
             break;
-        case(','):
+        case ',':
             insert_token(list, (Token){ .type = COMMA, .lexeme = &lexer->buffer[lexer->start], .length = (lexer->current - lexer->start), .line = lexer->line});
             break;
-        case('.'):
+        case '.' :
             insert_token(list, (Token){ .type = DOT, .lexeme = &lexer->buffer[lexer->start], .length = (lexer->current - lexer->start), .line = lexer->line});
             break;
-        case('+'):
+        case '+':
             insert_token(list, (Token){ .type = PLUS, .lexeme = &lexer->buffer[lexer->start], .length = (lexer->current - lexer->start), .line = lexer->line});
             break;
-        case('-'):
+        case '-':
             insert_token(list, (Token){ .type = MINUS, .lexeme = &lexer->buffer[lexer->start], .length = (lexer->current - lexer->start), .line = lexer->line});
             break;
-        case(';'):
+        case ';':
             insert_token(list, (Token){ .type = SEMICOLON, .lexeme = &lexer->buffer[lexer->start], .length = (lexer->current - lexer->start), .line = lexer->line});
             break;
-        case('\\'):
+        case '\\':
             insert_token(list, (Token){ .type = BACKSLASH, .lexeme = &lexer->buffer[lexer->start], .length = (lexer->current - lexer->start), .line = lexer->line});
             break;
-        case('*'):
+        case '*':
             insert_token(list, (Token){ .type = STAR, .lexeme = &lexer->buffer[lexer->start], .length = (lexer->current - lexer->start), .line = lexer->line});
             break;
-        case('='):
+        case '=':
             insert_token(list, (Token){ .type = (match_next(lexer, '=') ? EQUAL_EQUAL : EQUAL), .lexeme = &lexer->buffer[lexer->start], .length = (lexer->current - lexer->start), .line = lexer->line});
             break;
-        case('>'):
+        case '>':
             insert_token(list, (Token){ .type = (match_next(lexer, '=') ? GREATER_EQUAL : GREATER), .lexeme = &lexer->buffer[lexer->start], .length = (lexer->current - lexer->start), .line = lexer->line});
             break;
-        case('<'):
+        case '<':
             insert_token(list, (Token){ .type = (match_next(lexer, '=') ? LESSER_EQUAL : LESSER), .lexeme = &lexer->buffer[lexer->start], .length = (lexer->current - lexer->start), .line = lexer->line});
             break;
-        case('!'):
+        case '!':
             insert_token(list, (Token){ .type = (match_next(lexer, '=') ? NOT_EQUAL : NOT), .lexeme = &lexer->buffer[lexer->start], .length = (lexer->current - lexer->start), .line = lexer->line});
             break;
-        case('/'):
+        case '/':
             if (match_next(lexer, '/')) {
                 while (peek_next(lexer) != '\n' && !at_end(lexer)) {
                     advance(lexer);
                 }
             } else {
-                insert_token(list, (Token){ .type = SLASH, .lexeme = &lexer->buffer[lexer->start], .length = (lexer->current - lexer->start), .line = lexer->line});    
+                insert_token(list, (Token){ .type = SLASH, .lexeme = &lexer->buffer[lexer->start], .length = get_length(lexer), .line = lexer->line});    
             }
             break;
+        #pragma endregion
+
+        // Literals
+        case '"':
+            string_literal(lexer);
+            insert_token(list, (Token){ .type = L_STRING, .lexeme = &lexer->buffer[lexer->start + 1], .length = (get_length(lexer) - 2), .line = lexer->line});
+            break;
+        case '0':
+        case '1':
+        case '2':
+        case '3':
+        case '4':
+        case '5':
+        case '6':
+        case '7':
+        case '8':
+        case '9':
+            number_literal(lexer);
+            insert_token(list, (Token){ .type = L_NUMBER})
+
 
         // Special Characters
-        case('\n'): 
+        case '\n': 
             lexer->line++;
-            break;
-        case(' '):
-            break;
-        case('\r'):
-            break;
-        case('\t'):
+        case ' ':
+        case '\r':
+        case '\t':
             break;
         default: 
             perror("error reading tokens");
             lexer->hadError = true;
+
             break;
     }
 }

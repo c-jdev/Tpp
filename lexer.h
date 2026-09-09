@@ -8,11 +8,17 @@
 #include "token.h"
 
 typedef struct {
+    char message[64];  
+    int line;  
+} Error;
+
+typedef struct {
     int start;
     int current;
     int line; 
     long file_size;
     char *buffer;
+    Error *errors;
     bool hadError;
 } Lexer;
 

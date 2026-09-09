@@ -1,6 +1,4 @@
 // test comment
+! == +-
 
-(( )) {}
-
-!++ >= != ===! // gooooooo +++
-./\;
+"Hello"
