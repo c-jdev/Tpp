@@ -11,14 +11,16 @@ typedef enum {
     GREATER_EQUAL, LESSER_EQUAL, NOT_EQUAL, EQUAL_EQUAL,
 
     // Literals
-    L_STRING, L_NUMBER,
+    LITERAL_STRING, LITERAL_INT, LITERAL_FLOAT,
 
     // Keywords
-    AND, OR, IF, ELSE, WHILE, FOR, CLASS, FUNC, NIL, RETURN,
-    TRUE, FALSE, THIS, PRINT, 
+    AND, OR, IF, ELSE, WHILE, FOR, FUNC, NIL, RETURN,
+    TRUE, FALSE, PRINT, 
 
     // Types
     VAR, STRING, CHAR, INT, FLOAT,
+
+    IDENTIFIER,
 
     // Special Tokens
     _EOF = -1

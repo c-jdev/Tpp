@@ -2,6 +2,7 @@
 #include <stdio.h>
 
 #include "lexer.h"
+#include "dict.h"
 
 char *read_entire_file(const char *filename, long *out_size) {
     FILE *file = fopen(filename, "rb");
@@ -54,6 +55,13 @@ char peek_next(Lexer *lexer) {
     return lexer->buffer[lexer->current];
 }
 
+char peek_offset(Lexer *lexer, int offset) {
+    if (lexer->current + offset >= lexer->file_size) {
+        return '\0';
+    }
+    return lexer->buffer[lexer->current + offset];
+}
+
 char advance(Lexer *lexer) {
     char current_char = lexer->buffer[lexer->current];
     lexer->current++;
@@ -88,6 +96,34 @@ bool is_digit(char c) {
     return (c >= '0' && c <= '9');
 }
 
+bool is_alpha(char c) {
+    return ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || c == '_');
+}
+
+bool is_alpha_numeric(char c) {
+    return (is_digit(c) || is_alpha(c));
+}
+
+bool is_keyword(Lexer *lexer) {
+    
+}
+
+bool number_literal(Lexer *lexer) {
+    bool is_float = false;
+    while(is_digit(peek_next(lexer)) || peek_next(lexer) == '.') {
+        if (peek_next(lexer) == '.') {
+            // Peek next next
+            if (!is_digit(peek_offset(lexer, 1))) {
+                break;
+            }
+            is_float = true;
+        } 
+        advance(lexer);
+    }
+
+    return is_float;
+}
+
 Lexer *make_lexer(void) {      
     Lexer *lexer = (Lexer*) malloc(sizeof(Lexer));
     if (lexer == NULL) {
@@ -106,6 +142,14 @@ Lexer *make_lexer(void) {
     return lexer;
 }
 
+void identifier(Lexer *lexer) {
+    while(is_alpha_numeric(peek_next(lexer))) {
+        advance(lexer);
+    }
+
+    
+}
+
 void string_literal(Lexer *lexer) {
     while (peek_next(lexer) != '"' && !at_end(lexer)) {
         if (peek_next(lexer) == '\n') {
@@ -119,11 +163,8 @@ void string_literal(Lexer *lexer) {
         return;
     }
 
+    // Catch terminating "
     advance(lexer);
-}
-
-void number_literal(Lexer *lexer) {
-
 }
 
 void scan_token(Lexer *lexer, Token_List *list) {
@@ -191,21 +232,8 @@ void scan_token(Lexer *lexer, Token_List *list) {
         // Literals
         case '"':
             string_literal(lexer);
-            insert_token(list, (Token){ .type = L_STRING, .lexeme = &lexer->buffer[lexer->start + 1], .length = (get_length(lexer) - 2), .line = lexer->line});
-            break;
-        case '0':
-        case '1':
-        case '2':
-        case '3':
-        case '4':
-        case '5':
-        case '6':
-        case '7':
-        case '8':
-        case '9':
-            number_literal(lexer);
-            insert_token(list, (Token){ .type = L_NUMBER})
-
+            insert_token(list, (Token){ .type = LITERAL_STRING, .lexeme = lexer->buffer + (lexer->start + 1), .length = (get_length(lexer) - 2), .line = lexer->line});
+            break;  
 
         // Special Characters
         case '\n': 
@@ -215,10 +243,18 @@ void scan_token(Lexer *lexer, Token_List *list) {
         case '\t':
             break;
         default: 
-            perror("error reading tokens");
-            lexer->hadError = true;
-
-            break;
+            if (is_digit(current_char)) {
+                number_literal(lexer)
+                ? insert_token(list, (Token){ .type = LITERAL_FLOAT, .lexeme = lexer->buffer + lexer->start, .length = get_length(lexer), .line = lexer->line}) 
+                : insert_token(list, (Token){ .type = LITERAL_INT, .lexeme = lexer->buffer + lexer->start, .length = get_length(lexer), .line = lexer->line});    
+            } 
+            else if (is_alpha(current_char)) {
+                identifier(lexer);
+            }
+            else {
+                perror("error reading tokens");
+                lexer->hadError = true;
+            }
     }
 }
 

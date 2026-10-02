@@ -1,4 +1,4 @@
-// test comment
-! == +-
+12.
+3.0
 
-"Hello"
+.1

@@ -56,60 +56,60 @@ void print_token_list(Token_List *list) {
 const char *get_token_type_string(Token token) {
     switch (token.type) {
         // Special Tokens
-        case _EOF:          return "EOF";
+        case _EOF:             return "EOF";
+        case IDENTIFIER:       return "IDENTIFIER";
 
         // Single-Character Tokens
-        case LEFT_PAREN:    return "LEFT_PAREN";
-        case RIGHT_PAREN:   return "RIGHT_PAREN";
-        case LEFT_BRACE:    return "LEFT_BRACE";
-        case RIGHT_BRACE:   return "RIGHT_BRACE";
-        case COMMA:         return "COMMA";
-        case DOT:           return "DOT";
-        case PLUS:          return "PLUS";
-        case MINUS:         return "MINUS";
-        case SEMICOLON:     return "SEMICOLON";
-        case SLASH:         return "SLASH";
-        case STAR:          return "STAR";
-        case EQUAL:         return "EQUAL";
-        case GREATER:       return "GREATER";
-        case LESSER:        return "LESSER";
-        case BACKSLASH:     return "BACKSLASH";
-        case NOT:           return "NOT";
+        case LEFT_PAREN:       return "LEFT_PAREN";
+        case RIGHT_PAREN:      return "RIGHT_PAREN";
+        case LEFT_BRACE:       return "LEFT_BRACE";
+        case RIGHT_BRACE:      return "RIGHT_BRACE";
+        case COMMA:            return "COMMA";
+        case DOT:              return "DOT";
+        case PLUS:             return "PLUS";
+        case MINUS:            return "MINUS";
+        case SEMICOLON:        return "SEMICOLON";
+        case SLASH:            return "SLASH";
+        case STAR:             return "STAR";
+        case EQUAL:            return "EQUAL";
+        case GREATER:          return "GREATER";
+        case LESSER:           return "LESSER";
+        case BACKSLASH:        return "BACKSLASH";
+        case NOT:              return "NOT";
 
         // Multi-Character Tokens
-        case GREATER_EQUAL: return "GREATER_EQUAL";
-        case LESSER_EQUAL:  return "LESSER_EQUAL";
-        case NOT_EQUAL:     return "NOT_EQUAL";
-        case EQUAL_EQUAL:   return "EQUAL_EQUAL";
+        case GREATER_EQUAL:    return "GREATER_EQUAL";
+        case LESSER_EQUAL:     return "LESSER_EQUAL";
+        case NOT_EQUAL:        return "NOT_EQUAL";
+        case EQUAL_EQUAL:      return "EQUAL_EQUAL";
 
         // Literals
-        case L_STRING:      return "L_STRING";
-        case L_NUMBER:      return "L_NUMBER";
+        case LITERAL_STRING:   return "LITERAL_STRING";
+        case LITERAL_INT:      return "LITERAL_INT";
+        case LITERAL_FLOAT:    return "LITERAL_FLOAT";
 
         // Keywords
-        case AND:           return "AND";
-        case OR:            return "OR";
-        case IF:            return "IF";
-        case ELSE:          return "ELSE";
-        case WHILE:         return "WHILE";
-        case FOR:           return "FOR";
-        case CLASS:         return "CLASS";
-        case FUNC:          return "FUNC";
-        case NIL:           return "NIL";
-        case RETURN:        return "RETURN";
-        case TRUE:          return "TRUE";
-        case FALSE:         return "FALSE";
-        case THIS:          return "THIS";
-        case PRINT:         return "PRINT";
-
-        // Types
-        case VAR:           return "VAR";
-        case STRING:        return "STRING";
-        case CHAR:          return "CHAR";
-        case INT:           return "INT";
-        case FLOAT:         return "FLOAT";
+        case AND:              return "AND";
+        case OR:               return "OR";
+        case IF:               return "IF";
+        case ELSE:             return "ELSE";
+        case WHILE:            return "WHILE";
+        case FOR:              return "FOR";
+        case FUNC:             return "FUNC";
+        case NIL:              return "NIL";
+        case RETURN:           return "RETURN";
+        case TRUE:             return "TRUE";
+        case FALSE:            return "FALSE";
+        case PRINT:            return "PRINT";
+   
+        // Types   
+        case VAR:              return "VAR";
+        case STRING:           return "STRING";
+        case CHAR:             return "CHAR";
+        case INT:              return "INT";
+        case FLOAT:            return "FLOAT";
 
         // Fallback for safety
-        default:            return "UNKNOWN_TOKEN";
+        default:               return "UNKNOWN_TOKEN";
     }
 }
